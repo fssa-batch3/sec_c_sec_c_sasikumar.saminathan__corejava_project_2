@@ -14,6 +14,10 @@ import com.fssa.shopnow.exception.*;
  */
 
 public class ValidateAddress {
+	
+	  private ValidateAddress() {
+		  throw new IllegalStateException("Utility class");
+	}
 
 	public static boolean isValidObj(Address address) throws InvalidAddressException {
 
@@ -21,7 +25,7 @@ public class ValidateAddress {
 		if (address == null) {
 			throw new InvalidAddressException(AddressErrors.INVALID_OBJECT);
 		}
-		
+		 
 		//Validate the all attrubiutes 
 		isValidArea(address.getArea());
 		isValidHouseNumber(address.getHouseNumber());

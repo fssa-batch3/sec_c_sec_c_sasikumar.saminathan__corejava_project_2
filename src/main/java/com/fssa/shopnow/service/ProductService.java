@@ -19,13 +19,13 @@ public class ProductService {
 		this.validator = validator;
 	}
 	
-
+ 
 	public ProductService() {
 		// TODO Auto-generated constructor stub
 	}
 
  
-	public boolean addProduct(Product product) throws DAOException,InvalidProductException {
+	public boolean addProduct(Product product) throws DAOException,InvalidProductException, ClassNotFoundException {
 		if(ValidateProduct.validate(product)){
 			return ProductDao.addProduct(product);
 		}
@@ -34,7 +34,7 @@ public class ProductService {
 		}
 	}
 	
-	public boolean updateProduct(Product product) throws DAOException,InvalidProductException {
+	public boolean updateProduct(Product product) throws DAOException,InvalidProductException, ClassNotFoundException {
 		if(ValidateProduct.validate(product)){
 			return ProductDao.updateProduct(product);
 		}
@@ -43,7 +43,7 @@ public class ProductService {
 		}
 	}
 	
-	public boolean deleteProduct(int id) throws DAOException,InvalidProductException {
+	public boolean deleteProduct(int id) throws DAOException,InvalidProductException, ClassNotFoundException {
 		if(ValidateProduct.validateID(id)){
 			return ProductDao.deleteProduct(id);
 		}
@@ -52,7 +52,7 @@ public class ProductService {
 		}
 	}
 	
-	public boolean addImageUrls(List<String> imageURLs,String name) throws InvalidProductException, DAOException {
+	public boolean addImageUrls(List<String> imageURLs,String name) throws InvalidProductException, DAOException, ClassNotFoundException {
 		if(ValidateProduct.validateImageURL(imageURLs) && ValidateProduct.validateName(name)) {
 			return ProductDao.addImageUrls(imageURLs, name);
 		}

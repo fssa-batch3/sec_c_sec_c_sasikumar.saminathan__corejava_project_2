@@ -9,7 +9,7 @@ public class ConnectionUtil {
 	
 	static Logger logger = new Logger();
 	
-	public static Connection getConnection() {
+	public static Connection getConnection() throws ClassNotFoundException {
 		
 		
 		Connection con = null;
@@ -33,12 +33,17 @@ public class ConnectionUtil {
 			logger.info("connection successful");
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException("Unable to connect to the database");
+			throw new ClassNotFoundException("Unable to connect to the database");
 		}
 		return con;
 	}
 
 	public static void main(String[] args) {
-		getConnection();
+		try {
+			getConnection();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

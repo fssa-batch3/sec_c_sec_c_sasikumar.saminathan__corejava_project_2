@@ -61,7 +61,7 @@ public class TestAddress {
     @Test
     public void testLandmarkSetter() {
         String newLandmark = "Opposite City Mall";
-        address.setLandMark(newLandmark);
+        address.setLandMark(newLandmark); 
         Assertions.assertEquals(newLandmark, address.getLandMark());
     }
 

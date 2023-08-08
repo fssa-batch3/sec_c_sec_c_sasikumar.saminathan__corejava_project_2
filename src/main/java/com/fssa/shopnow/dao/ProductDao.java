@@ -17,7 +17,7 @@ public class ProductDao {
 
 	static Logger logger = new Logger();
 
-	public static boolean addProduct(Product product) throws DAOException, InvalidProductException {
+	public static boolean addProduct(Product product) throws DAOException, InvalidProductException, ClassNotFoundException {
 
 		try {
 			// Create insert statement
@@ -47,7 +47,7 @@ public class ProductDao {
 		return true;
 	}
 
-	public static int getProductIdByName(String name) throws DAOException {
+	public static int getProductIdByName(String name) throws DAOException,ClassNotFoundException {
 
 		try {
 			String query = "SELECT product_id FROM products WHERE product_name = ?";
@@ -72,7 +72,7 @@ public class ProductDao {
 	}
 
 	public static boolean addImageUrls(List<String> imageUrls, String productName)
-			throws DAOException, InvalidProductException {
+			throws DAOException, InvalidProductException,ClassNotFoundException {
 
 		// Get the product id with product name
 		int productId = getProductIdByName(productName);
@@ -99,7 +99,7 @@ public class ProductDao {
 	}
 
 	// this method for updating the table
-	public static boolean updateProduct(Product product) throws DAOException, InvalidProductException {
+	public static boolean updateProduct(Product product) throws DAOException, InvalidProductException,ClassNotFoundException {
 
 		try {
 			// Create update statement using task id
@@ -130,7 +130,7 @@ public class ProductDao {
 	}
 
 	// this method for deleting product row from table
-	public static boolean deleteProduct(int id) throws DAOException {
+	public static boolean deleteProduct(int id) throws DAOException,ClassNotFoundException {
 
 		try {
 			// Create delete statement query product id
@@ -152,7 +152,7 @@ public class ProductDao {
 	}
 
 	// This method for reading all the rows from products table
-	public static List<Product> getAllProducts() throws DAOException {
+	public static List<Product> getAllProducts() throws DAOException,ClassNotFoundException {
 
 		try {
 			// Create a Select all query

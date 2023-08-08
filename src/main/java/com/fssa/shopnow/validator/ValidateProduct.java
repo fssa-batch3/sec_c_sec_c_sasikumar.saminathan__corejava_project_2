@@ -8,6 +8,11 @@ import java.util.regex.Pattern;
 import com.fssa.shopnow.model.Product;
 
 public class ValidateProduct {
+	
+	  private ValidateProduct() {
+		  throw new IllegalStateException("Utility class");
+	}
+	
 	public static boolean validate(Product mobile)
 			throws InvalidProductException {
 
@@ -84,7 +89,7 @@ public class ValidateProduct {
 	
 	//Validate the imageURL
 	public static boolean validateImageURL(List<String> imgUrls) throws InvalidProductException {
-		
+		 
 		if(imgUrls.size() != 4){
 			throw new InvalidProductException(ProductErrors.INVALID_IMAGEURL);
 		}

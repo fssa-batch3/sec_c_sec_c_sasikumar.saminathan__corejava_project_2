@@ -3,7 +3,7 @@ package com.fssa.shopnow.errors;
  * This interface variables contains error messages for use in Exceptions
  */
 
-public interface ProductErrors {
+public final class ProductErrors {
 
 public static final String INVALID_OBJECT = "Product object cannot be null";
 public static final String INVALID_NAME = "Product Name cannot be null or lesser than 3 characters";
