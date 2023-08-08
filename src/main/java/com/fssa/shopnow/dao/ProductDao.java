@@ -28,12 +28,10 @@ public class ProductDao {
 
 	public static boolean addProduct(Product product) throws DAOException,InvalidProductException {
 				
-		// Write code here to get connection
-		Connection connection = null;
 		try {
 			// Create insert statement
 			String query = "INSERT INTO products (product_name,product_price,product_ram,product_storage,product_highlights,product_quantity,product_brand) VALUES (?,?,?,?,?,?,?)";
-			connection = ConnectionUtil.getConnection(); 
+			try(Connection connection = ConnectionUtil.getConnection()){
 
 			// Execute insert statement
 			try(PreparedStatement pst = connection.prepareStatement(query)){
@@ -50,17 +48,9 @@ public class ProductDao {
 			System.out.println("number of rows affected:" + rows);
 			
 			}
+			}
 		} catch (SQLException e) {
 			throw new DAOException(ProductErrors.CREATE_ERROR, e);
-		} finally {
-			// close connection
-			try {
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				throw new DAOException(ProductErrors.CLOSE_ERROR, e);
-			}
 		}
 
 		return true;
@@ -68,12 +58,10 @@ public class ProductDao {
 	
 	public static int getProductIdByName(String name) throws DAOException{
 		
-		//Write here to get connection
-		Connection connection = null;
 		
 		try {
 			String query = "SELECT product_id FROM products WHERE product_name = ?";
-			connection = ConnectionUtil.getConnection();
+			try(Connection connection = ConnectionUtil.getConnection()){
 			try( PreparedStatement pst = connection.prepareStatement(query) ){
 			pst.setString(1, name);
 			
@@ -88,19 +76,10 @@ public class ProductDao {
 				}
 			 }
 			}
+			}
 		}
 		catch (SQLException e) {
 			throw new DAOException("Cannot get product id by name");
-		}
-		finally {
-			// close connection
-			try {
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				throw new DAOException(ProductErrors.CLOSE_ERROR, e);
-			}
 		}
 	}
 	
@@ -109,12 +88,10 @@ public class ProductDao {
 		//Get the product id with product name
 		int productId = getProductIdByName(productName);
 		
-		Connection connection = null;
-		
 		int rows = 0;
 		
 		try {
-			connection = ConnectionUtil.getConnection();
+			try(Connection connection = ConnectionUtil.getConnection()){
 			for(String url : imageUrls) {
 				String query = "INSERT INTO Product_images (product_id,image_url) VALUES (?,?)";
 				try( PreparedStatement pst = connection.prepareStatement(query) ){
@@ -124,20 +101,10 @@ public class ProductDao {
 				} 
 				
 			}
+			System.out.println("number of rows affected:" + rows);
+			}
 		} catch (SQLException e) {
 			throw new DAOException("cannot add image URL's");
-		}
-		finally {
-			System.out.println("number of rows affected:" + rows);
-			// close connection
-			try {
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				throw new DAOException(ProductErrors.CLOSE_ERROR, e);
-			}
-			
 		}
 		return true;
 	}
@@ -145,11 +112,11 @@ public class ProductDao {
 	// this method for updating the table
 	public static boolean updateProduct(Product product) throws DAOException,InvalidProductException {
 		
-		Connection connection = null;
+
 		try {
 			// Create update statement using task id
 			String query = "UPDATE products SET product_name = ?, product_price = ?,product_ram = ?,product_storage = ?,product_highlights = ?,product_quantity=? ,product_brand=? WHERE product_id = ?";
-			connection = ConnectionUtil.getConnection();
+			try(Connection connection = ConnectionUtil.getConnection()){
 
 			// Execute update statement using task id
 			try(PreparedStatement pst = connection.prepareStatement(query)){
@@ -167,17 +134,9 @@ public class ProductDao {
 			System.out.println("number of rows updated : " + row);
 			
 			}
+			}
 		} catch (SQLException e) {
 			throw new DAOException(ProductErrors.UPDATE_ERROR, e);
-		} finally {
-			// close connection
-			try {
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				throw new DAOException(ProductErrors.CLOSE_ERROR, e);
-			}
 		}
 		return true;
 	}
@@ -185,11 +144,10 @@ public class ProductDao {
 	// this method for deleting product row from table
 	public static boolean deleteProduct(int id) throws DAOException {
 		
-		Connection connection = null;
 		try {
 			// Create delete statement query product id
 			String query = "DELETE FROM products WHERE product_id = ?";
-			connection = ConnectionUtil.getConnection();
+			try(Connection connection = ConnectionUtil.getConnection()){
 
 			// Execute delete statement
 			try(PreparedStatement pst = connection.prepareStatement(query)){
@@ -197,17 +155,9 @@ public class ProductDao {
 			int row = pst.executeUpdate();
 			System.out.println("number of rows deleted : " + row);
 			}
+			}
 		} catch (SQLException e) {
 			throw new DAOException(ProductErrors.DELETE_ERROR, e);
-		} finally {
-			// close connection
-			try {
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				throw new DAOException(ProductErrors.CLOSE_ERROR, e);
-			}
 		}
 
 		return true;
@@ -216,15 +166,14 @@ public class ProductDao {
 	//This method for reading all the rows from products table
 	public static List<Product> getAllProducts() throws DAOException {
 		
-		// Write code here to get connection
-		Connection connection = null;
+		
 		try {
 			// Create a Select all query
 			String query = "SELECT\r\n"
 					+ "    p.*,\r\n"
 					+ "    (SELECT GROUP_CONCAT(image_url) FROM product_images pi WHERE pi.product_id = p.product_id) AS imageUrls\r\n"
 					+ "FROM products p;";
-			connection = ConnectionUtil.getConnection();
+			try(Connection connection = ConnectionUtil.getConnection()){
 
 			// Execute query
 			try(Statement statement = connection.createStatement()){
@@ -260,17 +209,9 @@ public class ProductDao {
 			//resultSet.close();
 			//resultSet2.close();
 			//statement.close();
+			}
 		} catch (SQLException e) {
 			throw new DAOException(ProductErrors.GET_ERROR, e);
-		} finally {
-			// close connection
-			try {
-				if (connection != null) { 
-					connection.close();
-				}
-			} catch (SQLException e) {
-				throw new DAOException(ProductErrors.CLOSE_ERROR, e);
-			}
 		}
 	} 
 
