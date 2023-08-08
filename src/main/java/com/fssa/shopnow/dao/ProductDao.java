@@ -33,10 +33,10 @@ public class ProductDao {
 		try {
 			// Create insert statement
 			String query = "INSERT INTO products (product_name,product_price,product_ram,product_storage,product_highlights,product_quantity,product_brand) VALUES (?,?,?,?,?,?,?)";
-			connection = ConnectionUtil.getConnection();
+			connection = ConnectionUtil.getConnection(); 
 
 			// Execute insert statement
-			PreparedStatement pst = connection.prepareStatement(query);
+			try(PreparedStatement pst = connection.prepareStatement(query)){
 
 			pst.setString(1, product.getName());
 			pst.setDouble(2, product.getPrice());
@@ -46,8 +46,10 @@ public class ProductDao {
 			pst.setInt(6, product.getQuantity());
 			pst.setString(7, product.getBrand());
 			int rows = pst.executeUpdate();
-
+			
 			System.out.println("number of rows affected:" + rows);
+			
+			}
 		} catch (SQLException e) {
 			throw new DAOException(ProductErrors.CREATE_ERROR, e);
 		} finally {
@@ -150,7 +152,7 @@ public class ProductDao {
 			connection = ConnectionUtil.getConnection();
 
 			// Execute update statement using task id
-			PreparedStatement pst = connection.prepareStatement(query);
+			try(PreparedStatement pst = connection.prepareStatement(query)){
 			pst.setString(1, product.getName());
 			pst.setDouble(2, product.getPrice());
 			pst.setInt(3, product.getRam());
@@ -163,6 +165,8 @@ public class ProductDao {
 			int row = pst.executeUpdate();
 
 			System.out.println("number of rows updated : " + row);
+			
+			}
 		} catch (SQLException e) {
 			throw new DAOException(ProductErrors.UPDATE_ERROR, e);
 		} finally {
@@ -188,10 +192,11 @@ public class ProductDao {
 			connection = ConnectionUtil.getConnection();
 
 			// Execute delete statement
-			PreparedStatement pst = connection.prepareStatement(query);
+			try(PreparedStatement pst = connection.prepareStatement(query)){
 			pst.setInt(1, id);
 			int row = pst.executeUpdate();
 			System.out.println("number of rows deleted : " + row);
+			}
 		} catch (SQLException e) {
 			throw new DAOException(ProductErrors.DELETE_ERROR, e);
 		} finally {
@@ -222,8 +227,8 @@ public class ProductDao {
 			connection = ConnectionUtil.getConnection();
 
 			// Execute query
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+			try(Statement statement = connection.createStatement()){
+			try(ResultSet resultSet = statement.executeQuery(query)){
 
 			// Create an ArrayList for get and insert all task from databse  
 			List<Product> products = new ArrayList<Product>();
@@ -248,6 +253,8 @@ public class ProductDao {
 				
 			}
 			return products;
+			}
+			}
 			
 			//closing the opened statements
 			//resultSet.close();
