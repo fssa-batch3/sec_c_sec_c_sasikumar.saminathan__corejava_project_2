@@ -14,7 +14,6 @@ public class ConnectionUtil {
 	public static Connection getConnection() throws ClassNotFoundException {
 		
 		
-		Connection con = null;
 
 		String url, userName, passWord;
 
@@ -31,13 +30,15 @@ public class ConnectionUtil {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(url, userName, passWord);
+			try(Connection con = DriverManager.getConnection(url, userName, passWord)){
 			logger.info("connection successful");
+			return con;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ClassNotFoundException("Unable to connect to the database");
 		}
-		return con;
+		
 	}
 
 	public static void main(String[] args) {
