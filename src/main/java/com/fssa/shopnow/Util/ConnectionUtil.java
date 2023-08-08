@@ -2,15 +2,14 @@ package com.fssa.shopnow.Util;
 
 import java.sql.Connection; 
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import com.fssa.shopnow.dao.DAOException;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class ConnectionUtil {
 	
 	static Logger logger = new Logger();
 	
-	public static Connection getConnection() throws DAOException, ClassNotFoundException {
+	public static Connection getConnection() {
 		
 		
 		Connection con = null;
@@ -32,19 +31,14 @@ public class ConnectionUtil {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userName, passWord);
 			logger.info("connection successful");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw new DAOException("Unable to connect to the database");
+			throw new RuntimeException("Unable to connect to the database");
 		}
 		return con;
 	}
 
 	public static void main(String[] args) {
-		try {
-			getConnection();
-		} catch (ClassNotFoundException | DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		getConnection();
 	}
 }
