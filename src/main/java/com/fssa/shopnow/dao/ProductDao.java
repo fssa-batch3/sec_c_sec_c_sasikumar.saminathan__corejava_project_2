@@ -1,32 +1,21 @@
 package com.fssa.shopnow.dao;
-
-import java.util.*;
-
-import com.fssa.shopnow.validator.*;
-import com.fssa.shopnow.model.*;
-import com.fssa.shopnow.Util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import com.fssa.shopnow.Util.ConnectionUtil;
+import com.fssa.shopnow.Util.Logger;
 import com.fssa.shopnow.errors.ProductErrors;
-import com.fssa.shopnow.exception.*;
-import com.mysql.cj.x.protobuf.MysqlxCrud.Delete;
-import java.sql.*;
+import com.fssa.shopnow.exception.InvalidProductException;
+import com.fssa.shopnow.model.Product;
 
 public class ProductDao {
 
-//	public static Connection getConnection() throws DAOException {
-//
-//		Connection connection = null;
-//		String url = "jdbc:mysql://localhost:3306/shopnow"; // url for to connect local database
-//		String userName = "root";
-//		String passWord = "123456"; 
-//		try {  
-////	            Class.forName("com.mysql.cj.jdbc.Driver"); 
-//			connection = DriverManager.getConnection(url, userName, passWord);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			throw new DAOException(ProductErrors.CONNECTION_ISSUE);
-//		}
-//		return connection;
-//	}
+	static Logger logger = new Logger();
 
 	public static boolean addProduct(Product product) throws DAOException, InvalidProductException {
 
@@ -47,7 +36,7 @@ public class ProductDao {
 					pst.setString(7, product.getBrand());
 					int rows = pst.executeUpdate();
 
-					System.out.println("number of rows affected:" + rows);
+					logger.info("number of rows affected:" + rows);
 
 				}
 			}
@@ -101,7 +90,7 @@ public class ProductDao {
 					}
 
 				}
-				System.out.println("number of rows affected:" + rows);
+				logger.info("number of rows affected:" + rows);
 			}
 		} catch (SQLException e) {
 			throw new DAOException("cannot add image URL's");
@@ -130,7 +119,7 @@ public class ProductDao {
 
 					int row = pst.executeUpdate();
 
-					System.out.println("number of rows updated : " + row);
+					logger.info("number of rows updated : " + row);
 
 				}
 			}
@@ -152,7 +141,7 @@ public class ProductDao {
 				try (PreparedStatement pst = connection.prepareStatement(query)) {
 					pst.setInt(1, id);
 					int row = pst.executeUpdate();
-					System.out.println("number of rows deleted : " + row);
+					logger.info("number of rows deleted : " + row);
 				}
 			}
 		} catch (SQLException e) {

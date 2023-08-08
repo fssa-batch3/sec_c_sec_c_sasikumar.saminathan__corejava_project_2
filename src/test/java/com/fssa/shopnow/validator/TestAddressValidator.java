@@ -26,14 +26,14 @@ public class TestAddressValidator {
     
     public void testObject() {
     	
-    	//validate the address it will return true
+    	//validate the address it will return true 
     	Assertions.assertTrue(ValidateAddress.isValidObj(address));
     	
     	try {
 			ValidateAddress.isValidObj(null);
 			Assertions.fail(AddressErrors.EXPECT_FAIL);
 		} catch (InvalidAddressException e) {
-			Assertions.assertEquals(e.getMessage(),AddressErrors.INVALID_OBJECT);
+			Assertions.assertEquals(AddressErrors.INVALID_OBJECT,e.getMessage());
 		}
     }
     
@@ -46,7 +46,7 @@ public class TestAddressValidator {
 			ValidateAddress.isValidArea(null);
 			Assertions.fail(AddressErrors.EXPECT_FAIL);
 		} catch (InvalidAddressException e) {
-			Assertions.assertEquals(e.getMessage(),AddressErrors.INVALID_AREA);
+			Assertions.assertEquals(AddressErrors.INVALID_AREA,e.getMessage());
 		}
     }
     
@@ -59,7 +59,7 @@ public class TestAddressValidator {
 			ValidateAddress.isValidHouseNumber(null);
 			Assertions.fail(AddressErrors.EXPECT_FAIL);
 		} catch (InvalidAddressException e) {
-			Assertions.assertEquals(e.getMessage(),AddressErrors.INVALID_HOUSE_NUMBER);
+			Assertions.assertEquals(AddressErrors.INVALID_HOUSE_NUMBER,e.getMessage());
 		}
     }
     
@@ -72,7 +72,7 @@ public class TestAddressValidator {
 			ValidateAddress.isValidLandmark(null);
 			Assertions.fail(AddressErrors.EXPECT_FAIL);
 		} catch (InvalidAddressException e) {
-			Assertions.assertEquals(e.getMessage(),AddressErrors.INVALID_LANDMARK);
+			Assertions.assertEquals(AddressErrors.INVALID_LANDMARK,e.getMessage());
 		}
     }
     
@@ -85,7 +85,7 @@ public class TestAddressValidator {
 			ValidateAddress.isValidPincode(null);
 			Assertions.fail(AddressErrors.EXPECT_FAIL);
 		} catch (InvalidAddressException e) {
-			Assertions.assertEquals(e.getMessage(),AddressErrors.EMPTY_PINCODE);
+			Assertions.assertEquals(AddressErrors.EMPTY_PINCODE,e.getMessage());
 		}
     }
 }

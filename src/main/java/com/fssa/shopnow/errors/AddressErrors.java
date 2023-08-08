@@ -6,7 +6,7 @@ package com.fssa.shopnow.errors;
  * validation issues related to Address attributes in the application.
  * By using constants, it ensures consistency in error message handling throughout the codebase.
  */
-public interface AddressErrors {
+public final class AddressErrors {
 
     /**
      * Error message for an invalid Address object.
