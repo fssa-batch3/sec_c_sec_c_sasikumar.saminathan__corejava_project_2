@@ -1,9 +1,10 @@
 package com.fssa.shopnow.dao;
 
 import java.util.*;
-import com.fssa.shopnow.connectionUtil.*;
+
 import com.fssa.shopnow.validator.*;
 import com.fssa.shopnow.model.*;
+import com.fssa.shopnow.Util.*;
 import com.fssa.shopnow.errors.ProductErrors;
 import com.fssa.shopnow.exception.*;
 import com.mysql.cj.x.protobuf.MysqlxCrud.Delete;

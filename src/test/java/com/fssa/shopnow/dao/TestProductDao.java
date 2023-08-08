@@ -90,7 +90,7 @@ public class TestProductDao {
 //	
 	@Test
 	public void testgetIdByName() throws DAOException{
-		
+		 
 		int id = ProductDao.getProductIdByName(name);
 		
 		boolean value = (id > 0) ? true : false; 
