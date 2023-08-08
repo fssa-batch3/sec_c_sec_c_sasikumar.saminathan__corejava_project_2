@@ -3,6 +3,8 @@ package com.fssa.shopnow.Util;
 import java.sql.Connection; 
 import java.sql.DriverManager;
 
+import com.fssa.shopnow.dao.DAOException;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class ConnectionUtil {

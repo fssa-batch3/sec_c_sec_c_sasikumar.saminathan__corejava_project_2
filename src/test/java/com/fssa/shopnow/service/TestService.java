@@ -32,7 +32,7 @@ public class TestService {
 	Product mobile = new Product(99,"Mobile Phone",499.99,8,128,"A powerful mobile phone.",imageURL,10,"redmi");
  
 	@Test
-	public void testAddproduct() throws InvalidProductException, DAOException {
+	public void testAddproduct() throws InvalidProductException, DAOException, ClassNotFoundException {
 		Product mob = new Product();
 		Assertions.assertTrue(service.addProduct(mobile));
 		
@@ -45,7 +45,7 @@ public class TestService {
 	} 
 	 
 	@Test 
-	public void testUpdateproduct() throws InvalidProductException, DAOException {
+	public void testUpdateproduct() throws InvalidProductException, DAOException, ClassNotFoundException {
 		Product mob = new Product();
 		Assertions.assertTrue(service.updateProduct(mobile));
 		
@@ -58,7 +58,7 @@ public class TestService {
 	}
 	
 	@Test
-	public void testDeleteproduct() throws InvalidProductException, DAOException {
+	public void testDeleteproduct() throws InvalidProductException, DAOException, ClassNotFoundException {
 		
 		Assertions.assertTrue(service.deleteProduct(2));
 		try {
@@ -69,7 +69,7 @@ public class TestService {
 		}
 	}
 	
-	public void testAddImageUrls() throws InvalidProductException,DAOException {
+	public void testAddImageUrls() throws InvalidProductException,DAOException, ClassNotFoundException {
 		
 		Assertions.assertTrue(service.addImageUrls(imageURL, name));
 		

@@ -30,7 +30,7 @@ public class TestProductDao {
 	Product product = new Product(id, name, price, ram, storage, description, imageURL, quantity, brand);
 
 	@Test
-	public void testAddProduct() throws InvalidProductException, DAOException {
+	public void testAddProduct() throws InvalidProductException, DAOException, ClassNotFoundException {
 
 		Assertions.assertTrue(ProductDao.addProduct(product));
 
@@ -51,7 +51,7 @@ public class TestProductDao {
 	}
 
 	@Test
-	public void testUpdateProduct() throws DAOException {
+	public void testUpdateProduct() throws DAOException, InvalidProductException, ClassNotFoundException {
 
 		Assertions.assertTrue(ProductDao.updateProduct(product));
 
@@ -66,7 +66,7 @@ public class TestProductDao {
 	}
 
 	@Test
-	public void testDeleteProduct() throws DAOException {
+	public void testDeleteProduct() throws DAOException, ClassNotFoundException {
 
 		Assertions.assertTrue(ProductDao.deleteProduct(id));
 
@@ -89,7 +89,7 @@ public class TestProductDao {
 //	}
 //	
 	@Test
-	public void testgetIdByName() throws DAOException{
+	public void testgetIdByName() throws DAOException, ClassNotFoundException{
 		 
 		int id = ProductDao.getProductIdByName(name);
 		
@@ -100,7 +100,7 @@ public class TestProductDao {
 	}
 	
 	@Test
-	public void testAddImageUrls() throws DAOException{
+	public void testAddImageUrls() throws DAOException, InvalidProductException, ClassNotFoundException{
 		Assertions.assertTrue(ProductDao.addImageUrls(imageURL, name));
 	}
 
