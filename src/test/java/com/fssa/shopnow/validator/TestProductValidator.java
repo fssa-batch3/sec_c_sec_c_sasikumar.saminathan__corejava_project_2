@@ -10,7 +10,7 @@ import com.fssa.shopnow.errors.ProductErrors;
 import com.fssa.shopnow.exception.*;
 import com.fssa.shopnow.model.Product;
 import com.fssa.shopnow.validator.*;
-
+ 
 public class TestProductValidator {
 	// Declaring the values for product
 	int id = 1;
