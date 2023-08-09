@@ -7,6 +7,11 @@ package com.fssa.shopnow.errors;
  * By using constants, it ensures consistency in error message handling throughout the codebase.
  */
 public final class AddressErrors {
+	
+	   public AddressErrors() {
+		  throw new IllegalStateException("Utility class");
+	}
+
 
     /**
      * Error message for an invalid Address object.

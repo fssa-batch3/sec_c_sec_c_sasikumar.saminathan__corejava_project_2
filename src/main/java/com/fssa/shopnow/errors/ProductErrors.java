@@ -4,6 +4,10 @@ package com.fssa.shopnow.errors;
  */
 
 public final class ProductErrors {
+	
+	   public ProductErrors() {
+		  throw new IllegalStateException("Utility class");
+	}
 
 public static final String INVALID_OBJECT = "Product object cannot be null";
 public static final String INVALID_NAME = "Product Name cannot be null or lesser than 3 characters";

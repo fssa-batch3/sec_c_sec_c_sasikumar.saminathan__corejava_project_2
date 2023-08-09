@@ -8,11 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import com.fssa.shopnow.Util.ConnectionUtil;
-import com.fssa.shopnow.Util.Logger;
+
 import com.fssa.shopnow.errors.ProductErrors;
 import com.fssa.shopnow.exception.InvalidProductException;
 import com.fssa.shopnow.model.Product;
+import com.fssa.shopnow.util.ConnectionUtil;
+import com.fssa.shopnow.util.Logger;
 
 public class ProductDao {
 
@@ -22,12 +23,12 @@ public class ProductDao {
 			throws DAOException, InvalidProductException, ClassNotFoundException, SQLException {
 
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			System.out.println("hi");
+	
 			// Create insert statement
 			String query = "INSERT INTO products (product_name,product_price,product_ram,product_storage,product_highlights,product_quantity,product_brand) VALUES (?,?,?,?,?,?,?)";
 			// Execute insert statement
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
-				System.out.println("Preparing statement");
+
 
 				pst.setString(1, product.getName());
 				pst.setDouble(2, product.getPrice());
@@ -83,7 +84,7 @@ public class ProductDao {
 
 		try {
 			try (Connection connection = ConnectionUtil.getConnection()) {
-				for (String url : imageUrls) {
+				for (String url : imageUrls) { 
 					String query = "INSERT INTO Product_images (product_id,image_url) VALUES (?,?)";
 					try (PreparedStatement pst = connection.prepareStatement(query)) {
 						pst.setInt(1, productId);
@@ -228,16 +229,16 @@ public class ProductDao {
 ////		try {
 ////			addProduct(product);
 ////		} catch (InvalidProductException e) {
-////			// TODO Auto-generated catch block
+////		
 ////			e.printStackTrace();
 ////		} catch (DAOException e) {
-////			// TODO Auto-generated catch block
+////		
 ////			e.printStackTrace();
 ////		} catch (ClassNotFoundException e) {
-////			// TODO Auto-generated catch block
+////		
 ////			e.printStackTrace();
 ////		} catch (SQLException e) {
-////			// TODO Auto-generated catch block
+////		
 ////			e.printStackTrace();
 ////		}
 //		addProduct(product);
