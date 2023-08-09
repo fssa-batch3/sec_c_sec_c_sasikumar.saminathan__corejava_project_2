@@ -24,7 +24,7 @@ public class TestProductModel {
 			"https://example.com/image1.jpg", "https://example.com/image1.jpg" };
 	List<String> imageURL = new ArrayList<String>(Arrays.asList(arr));
 	int quantity = 10;
-	String brand = "BrandX";
+	String brand = "BrandX"; 
 
 	// Insert the declared values for product via constructor
 	Product product = new Product(id, name, price, ram, storage, description, imageURL, quantity, brand);

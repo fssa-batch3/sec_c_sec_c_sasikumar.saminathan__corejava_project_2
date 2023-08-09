@@ -1,4 +1,5 @@
 package com.fssa.shopnow.dao;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,37 +18,38 @@ public class ProductDao {
 
 	static Logger logger = new Logger();
 
-	public static boolean addProduct(Product product) throws DAOException, InvalidProductException, ClassNotFoundException {
+	public static boolean addProduct(Product product)
+			throws DAOException, InvalidProductException, ClassNotFoundException, SQLException {
 
-		try {
+		try (Connection connection = ConnectionUtil.getConnection()) {
+			System.out.println("hi");
 			// Create insert statement
 			String query = "INSERT INTO products (product_name,product_price,product_ram,product_storage,product_highlights,product_quantity,product_brand) VALUES (?,?,?,?,?,?,?)";
-			try (Connection connection = ConnectionUtil.getConnection()) {
+			// Execute insert statement
+			try (PreparedStatement pst = connection.prepareStatement(query)) {
+				System.out.println("Preparing statement");
 
-				// Execute insert statement
-				try (PreparedStatement pst = connection.prepareStatement(query)) {
+				pst.setString(1, product.getName());
+				pst.setDouble(2, product.getPrice());
+				pst.setInt(3, product.getRam());
+				pst.setInt(4, product.getStorage());
+				pst.setString(5, product.getDescription());
+				pst.setInt(6, product.getQuantity());
+				pst.setString(7, product.getBrand());
+				int rows = pst.executeUpdate();
 
-					pst.setString(1, product.getName());
-					pst.setDouble(2, product.getPrice());
-					pst.setInt(3, product.getRam());
-					pst.setInt(4, product.getStorage());
-					pst.setString(5, product.getDescription());
-					pst.setInt(6, product.getQuantity());
-					pst.setString(7, product.getBrand());
-					int rows = pst.executeUpdate();
+				logger.info("number of rows affected:" + rows);
 
-					logger.info("number of rows affected:" + rows);
-
-				}
 			}
 		} catch (SQLException e) {
-			throw new DAOException(ProductErrors.CREATE_ERROR, e);
+			e.printStackTrace();
+			throw new DAOException(ProductErrors.CREATE_ERROR);
 		}
 
 		return true;
 	}
 
-	public static int getProductIdByName(String name) throws DAOException,ClassNotFoundException {
+	public static int getProductIdByName(String name) throws DAOException, ClassNotFoundException {
 
 		try {
 			String query = "SELECT product_id FROM products WHERE product_name = ?";
@@ -72,7 +74,7 @@ public class ProductDao {
 	}
 
 	public static boolean addImageUrls(List<String> imageUrls, String productName)
-			throws DAOException, InvalidProductException,ClassNotFoundException {
+			throws DAOException, InvalidProductException, ClassNotFoundException {
 
 		// Get the product id with product name
 		int productId = getProductIdByName(productName);
@@ -99,7 +101,8 @@ public class ProductDao {
 	}
 
 	// this method for updating the table
-	public static boolean updateProduct(Product product) throws DAOException, InvalidProductException,ClassNotFoundException {
+	public static boolean updateProduct(Product product)
+			throws DAOException, InvalidProductException, ClassNotFoundException {
 
 		try {
 			// Create update statement using task id
@@ -130,7 +133,7 @@ public class ProductDao {
 	}
 
 	// this method for deleting product row from table
-	public static boolean deleteProduct(int id) throws DAOException,ClassNotFoundException {
+	public static boolean deleteProduct(int id) throws DAOException, ClassNotFoundException {
 
 		try {
 			// Create delete statement query product id
@@ -152,12 +155,12 @@ public class ProductDao {
 	}
 
 	// This method for reading all the rows from products table
-	public static List<Product> getAllProducts() throws DAOException,ClassNotFoundException {
+	public static List<Product> getAllProducts() throws DAOException, ClassNotFoundException {
 
 		try {
 			// Create a Select all query
 			String query = "SELECT\r\n" + "    p.*,\r\n"
-					+ "    (SELECT GROUP_CONCAT(image_url) FROM product_images pi WHERE pi.product_id = p.product_id) AS imageUrls\r\n"
+					+ "    (SELECT GROUP_CONCAT(image_url) FROM Product_images pi WHERE pi.product_id = p.product_id) AS image_urls\r\n"
 					+ "FROM products p;";
 			try (Connection connection = ConnectionUtil.getConnection()) {
 
@@ -177,9 +180,9 @@ public class ProductDao {
 							String description = resultSet.getString("product_highlights");
 							int quantity = resultSet.getInt("product_quantity");
 							String brand = resultSet.getString("product_brand");
-							String imageUrl = resultSet.getString("imageUrls");
+							String imageUrl = resultSet.getString("image_urls"); 
 
-							String[] imageArr = imageUrl.split(",");
+							String[] imageArr = imageUrl.split(","); 
 
 							List<String> imgList = new ArrayList<String>(Arrays.asList(imageArr));
 
@@ -188,7 +191,7 @@ public class ProductDao {
 							products.add(product);
 
 						}
-						return products;
+						return products; 
 					}
 				}
 
@@ -202,23 +205,25 @@ public class ProductDao {
 		}
 	}
 
-//	public static void main(String[] args) throws InvalidProductException, DAOException {
-//		
+//	public static void main(String[] args)
+//			throws InvalidProductException, DAOException, ClassNotFoundException, SQLException {
+//
 //		// Declaring the values for product
-//		int id = 10; 
-//		String name = "Mobile Phone";
+//		int id = 10;
+//		String name = "Mobile Phone w";
 //		double price = 499.99;
-//		int ram = 8; 
+//		int ram = 8;
 //		int storage = 128;
 //		String description = "A powerful mobile phone.";
-//		String[] arr = {"https://example.com/image1.jpg","https://example.com/image1.jpg","https://example.com/image1.jpg","https://example.com/image1.jpg"}; 
+//		String[] arr = { "https://example.com/image1.jpg", "https://example.com/image1.jpg",
+//				"https://example.com/image1.jpg", "https://example.com/image1.jpg" };
 //		List<String> imageURL = new ArrayList<String>(Arrays.asList(arr));
 //		int quantity = 10;
 //		String brand = "BrandX";
-//		
+//
 //		// Insert the declared values for product via constructor
 //		Product product = new Product(id, name, price, ram, storage, description, imageURL, quantity, brand);
-//		
+//
 ////		
 ////		try {
 ////			addProduct(product);
@@ -228,9 +233,15 @@ public class ProductDao {
 ////		} catch (DAOException e) {
 ////			// TODO Auto-generated catch block
 ////			e.printStackTrace();
+////		} catch (ClassNotFoundException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		} catch (SQLException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
 ////		}
-//		
-//		
+//		addProduct(product);
+//
 //	}
 
 }

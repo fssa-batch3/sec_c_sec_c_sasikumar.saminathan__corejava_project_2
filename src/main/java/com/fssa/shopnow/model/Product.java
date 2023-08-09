@@ -20,7 +20,7 @@ public class Product {
 	
 	public Product(int id, String name, double price, int ram, int storage, String description, List<String> imageURLs,int quantity, String brand) {
 		this.id = id;
-		this.name = name;
+		this.name = name; 
 		this.price = price;
 		this.ram = ram;
 		this.storage = storage;

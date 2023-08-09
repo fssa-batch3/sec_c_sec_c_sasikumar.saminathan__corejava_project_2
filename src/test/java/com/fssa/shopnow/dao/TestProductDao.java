@@ -4,6 +4,7 @@ import com.fssa.shopnow.dao.*;
 import com.fssa.shopnow.exception.InvalidProductException;
 import com.fssa.shopnow.model.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +16,7 @@ public class TestProductDao {
 
 	// Declaring the values for product
 	int id = 10;
-	String name = "Mobile Phone";
+	String name = "redmi 12";
 	double price = 499.99;
 	int ram = 8;
 	int storage = 128;
@@ -30,7 +31,7 @@ public class TestProductDao {
 	Product product = new Product(id, name, price, ram, storage, description, imageURL, quantity, brand);
 
 	@Test
-	public void testAddProduct() throws InvalidProductException, DAOException, ClassNotFoundException {
+	public void testAddProduct() throws InvalidProductException, DAOException, ClassNotFoundException, SQLException {
 
 		Assertions.assertTrue(ProductDao.addProduct(product));
 
@@ -79,29 +80,29 @@ public class TestProductDao {
 
 	}
 
-	//@Test
-//	public void testGetProduct() throws DAOException {
-//		// This test case will check if the getAllTasks method returns a non-empty list
-//		List<Product> allProducts = ProductDao.getAllProducts();
-//
-//		// Assert that the list is not null and not empty
-//		Assertions.assertFalse(allProducts.isEmpty());
-//	}
-//	
-	@Test
-	public void testgetIdByName() throws DAOException, ClassNotFoundException{
-		 
-		int id = ProductDao.getProductIdByName(name);
-		
-		boolean value = (id > 0) ? true : false; 
-		
-		Assertions.assertTrue(value);
-		
+	 @Test
+	public void testGetProduct() throws DAOException, ClassNotFoundException {
+		// This test case will check if the getAllTasks method returns a non-empty list
+		List<Product> allProducts = ProductDao.getAllProducts();
+
+		// Assert that the list is not null and not empty
+		Assertions.assertFalse(allProducts.isEmpty());
 	}
 	
 	@Test
-	public void testAddImageUrls() throws DAOException, InvalidProductException, ClassNotFoundException{
+	public void testgetIdByName() throws DAOException, ClassNotFoundException {
+
+		int id = ProductDao.getProductIdByName(name);
+
+		boolean value = (id > 0) ? true : false;
+
+		Assertions.assertTrue(value);
+
+	} 
+
+	@Test
+	public void testAddImageUrls() throws DAOException, InvalidProductException, ClassNotFoundException {
 		Assertions.assertTrue(ProductDao.addImageUrls(imageURL, name));
-	}
+	} 
 
 }

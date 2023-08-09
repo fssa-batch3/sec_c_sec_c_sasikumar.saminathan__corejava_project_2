@@ -1,4 +1,5 @@
 package com.fssa.shopnow.service;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.fssa.shopnow.dao.*;
@@ -25,7 +26,7 @@ public class ProductService {
 	}
 
  
-	public boolean addProduct(Product product) throws DAOException,InvalidProductException, ClassNotFoundException {
+	public boolean addProduct(Product product) throws DAOException,InvalidProductException, ClassNotFoundException, SQLException {
 		if(ValidateProduct.validate(product)){
 			return ProductDao.addProduct(product);
 		}
@@ -49,7 +50,7 @@ public class ProductService {
 		}
 		else {
 			return false;
-		}
+		} 
 	}
 	
 	public boolean addImageUrls(List<String> imageURLs,String name) throws InvalidProductException, DAOException, ClassNotFoundException {

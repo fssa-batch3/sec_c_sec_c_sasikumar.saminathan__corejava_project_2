@@ -1,6 +1,6 @@
 package com.fssa.shopnow.Util;
 
-import java.sql.Connection; 
+import java.sql.Connection;
 import java.sql.DriverManager;
 
 import com.fssa.shopnow.dao.DAOException;
@@ -8,12 +8,10 @@ import com.fssa.shopnow.dao.DAOException;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class ConnectionUtil {
-	
+
 	static Logger logger = new Logger();
-	
+
 	public static Connection getConnection() throws ClassNotFoundException {
-		
-		
 
 		String url, userName, passWord;
 
@@ -30,23 +28,23 @@ public class ConnectionUtil {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			try(Connection con = DriverManager.getConnection(url, userName, passWord)){
+			Connection con = DriverManager.getConnection(url, userName, passWord);
 			logger.info("connection successful");
 			return con;
-			}
+//			try (Connection con = DriverManager.getConnection(url, userName, passWord)) {
+//				logger.info("connection successful");
+//			
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ClassNotFoundException("Unable to connect to the database");
 		}
 		
+
+	}
+	
+	public static void main(String[] args) throws ClassNotFoundException {
+		getConnection();
 	}
 
-	public static void main(String[] args) {
-		try {
-			getConnection();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }

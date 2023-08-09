@@ -9,6 +9,7 @@ import com.fssa.shopnow.model.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +33,7 @@ public class TestService {
 	Product mobile = new Product(99,"Mobile Phone",499.99,8,128,"A powerful mobile phone.",imageURL,10,"redmi");
  
 	@Test
-	public void testAddproduct() throws InvalidProductException, DAOException, ClassNotFoundException {
+	public void testAddproduct() throws InvalidProductException, DAOException, ClassNotFoundException, SQLException {
 		Product mob = new Product();
 		Assertions.assertTrue(service.addProduct(mobile));
 		
