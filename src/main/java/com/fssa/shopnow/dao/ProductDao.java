@@ -43,7 +43,6 @@ public class ProductDao {
 
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException(ProductErrors.CREATE_ERROR);
 		}
 
@@ -239,7 +238,7 @@ public class ProductDao {
 ////			e.printStackTrace();
 ////		} catch (SQLException e) {
 ////		
-////			e.printStackTrace();
+////		
 ////		}
 //		addProduct(product);
 //

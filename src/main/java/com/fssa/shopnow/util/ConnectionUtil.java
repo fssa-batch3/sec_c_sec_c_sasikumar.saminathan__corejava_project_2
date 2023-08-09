@@ -32,7 +32,6 @@ public class ConnectionUtil {
 			return con;
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new ClassNotFoundException("Unable to connect to the database");
 		}
 
