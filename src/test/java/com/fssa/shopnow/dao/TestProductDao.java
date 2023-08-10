@@ -66,12 +66,11 @@ public class TestProductDao {
 	 @Test
 	public void testAddImageUrls() throws DAOException, InvalidProductException, ClassNotFoundException {
 		Assertions.assertTrue(ProductDao.addImageUrls(imageURL, "redmi 12"));
-	}  
+	}   
 	@Test
 	public void testDeleteProduct() throws DAOException, ClassNotFoundException {
 
 		Assertions.assertTrue(ProductDao.deleteProduct(name));
 
 	}
-	
 }
