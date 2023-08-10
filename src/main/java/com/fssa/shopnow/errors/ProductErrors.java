@@ -5,7 +5,7 @@ package com.fssa.shopnow.errors;
 
 public final class ProductErrors {
 	
-	   public ProductErrors() {
+	   private ProductErrors() {
 		  throw new IllegalStateException("Utility class");
 	}
 

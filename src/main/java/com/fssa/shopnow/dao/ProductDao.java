@@ -16,6 +16,11 @@ import com.fssa.shopnow.util.ConnectionUtil;
 import com.fssa.shopnow.util.Logger;
 
 public class ProductDao {
+	
+	
+		  private ProductDao() {
+		    throw new IllegalStateException("Utility class");
+		  }
 
 	static Logger logger = new Logger();
 
@@ -161,9 +166,12 @@ public class ProductDao {
 
 		try {
 			// Create a Select all query
-			String query = "SELECT\r\n" + "    p.*,\r\n"
-					+ "    (SELECT GROUP_CONCAT(image_url) FROM Product_images pi WHERE pi.product_id = p.product_id) AS image_urls\r\n"
-					+ "FROM products p;";
+			String query = """
+				    SELECT
+				        p.*,
+				        (SELECT GROUP_CONCAT(image_url) FROM Product_images pi WHERE pi.product_id = p.product_id) AS image_urls
+				    FROM products p;
+				""";
 			try (Connection connection = ConnectionUtil.getConnection()) {
 
 				// Execute query
@@ -206,28 +214,4 @@ public class ProductDao {
 			throw new DAOException(ProductErrors.GET_ERROR, e);
 		}
 	}
-
-//	public static void main(String[] args)
-//			throws InvalidProductException, DAOException, ClassNotFoundException, SQLException {
-//
-//		// Declaring the values for product
-//		int id = 10;
-//		String name = "Mobile Phone w";
-//		double price = 499.99;
-//		int ram = 8;
-//		int storage = 128;
-//		String description = "A powerful mobile phone.";
-//		String[] arr = { "https://example.com/image1.jpg", "https://example.com/image1.jpg",
-//				"https://example.com/image1.jpg", "https://example.com/image1.jpg" };
-//		List<String> imageURL = new ArrayList<String>(Arrays.asList(arr));
-//		int quantity = 10;
-//		String brand = "BrandX";
-//
-//		// Insert the declared values for product via constructor
-//		Product product = new Product(id, name, price, ram, storage, description, imageURL, quantity, brand);
-//
-//		int pId = getProductIdByName("redmi 12");
-//
-//	}
-
 }

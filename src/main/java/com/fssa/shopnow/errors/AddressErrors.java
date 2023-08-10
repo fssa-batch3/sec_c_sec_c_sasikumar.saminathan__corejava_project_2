@@ -8,7 +8,7 @@ package com.fssa.shopnow.errors;
  */
 public final class AddressErrors {
 	
-	   public AddressErrors() {
+	   private AddressErrors() {
 		  throw new IllegalStateException("Utility class");
 	}
 
