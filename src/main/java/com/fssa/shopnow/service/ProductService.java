@@ -27,7 +27,7 @@ public class ProductService {
 
  
 	public boolean addProduct(Product product) throws DAOException,InvalidProductException, ClassNotFoundException, SQLException {
-		if(ValidateProduct.validate(product)){
+		if(ValidateProduct.validate(product)){ 
 			return ProductDao.addProduct(product);
 		}
 		else {
@@ -44,9 +44,9 @@ public class ProductService {
 		}
 	}
 	
-	public boolean deleteProduct(int id) throws DAOException,InvalidProductException, ClassNotFoundException {
-		if(ValidateProduct.validateID(id)){
-			return ProductDao.deleteProduct(id);
+	public boolean deleteProduct(String name) throws DAOException,InvalidProductException, ClassNotFoundException {
+		if(ValidateProduct.validateName(name)){
+			return ProductDao.deleteProduct(name);
 		}
 		else {
 			return false;

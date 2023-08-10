@@ -61,13 +61,13 @@ public class ProductDao {
 
 						if (resultSet.next()) {
 							int productId = resultSet.getInt("product_id");
-							return productId;
+							return productId; 
 						} else {
 							throw new DAOException("Product not found");
 						}
 					}
 				}
-			}
+			} 
 		} catch (SQLException e) {
 			throw new DAOException("Cannot get product id by name");
 		}
@@ -133,8 +133,10 @@ public class ProductDao {
 	}
 
 	// this method for deleting product row from table
-	public static boolean deleteProduct(int id) throws DAOException, ClassNotFoundException {
-
+	public static boolean deleteProduct(String name) throws DAOException, ClassNotFoundException {
+		
+		int id = getProductIdByName(name);
+		
 		try {
 			// Create delete statement query product id
 			String query = "DELETE FROM products WHERE product_id = ?";
@@ -144,7 +146,7 @@ public class ProductDao {
 				try (PreparedStatement pst = connection.prepareStatement(query)) {
 					pst.setInt(1, id);
 					int row = pst.executeUpdate();
-					logger.info("number of rows deleted : " + row);
+					logger.info("number of rows deleted : " + row); 
 				}
 			}
 		} catch (SQLException e) {
@@ -224,23 +226,7 @@ public class ProductDao {
 //		// Insert the declared values for product via constructor
 //		Product product = new Product(id, name, price, ram, storage, description, imageURL, quantity, brand);
 //
-////		
-////		try {
-////			addProduct(product);
-////		} catch (InvalidProductException e) {
-////		
-////			e.printStackTrace();
-////		} catch (DAOException e) {
-////		
-////			e.printStackTrace();
-////		} catch (ClassNotFoundException e) {
-////		
-////			e.printStackTrace();
-////		} catch (SQLException e) {
-////		
-////		
-////		}
-//		addProduct(product);
+//		int pId = getProductIdByName("redmi 12");
 //
 //	}
 

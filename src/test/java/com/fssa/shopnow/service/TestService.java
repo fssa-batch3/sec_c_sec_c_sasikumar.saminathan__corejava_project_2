@@ -27,11 +27,11 @@ public class TestService {
 	String[] arr = { "https://example.com/image1.jpg", "https://example.com/image1.jpg",
 			"https://example.com/image1.jpg", "https://example.com/image1.jpg" };
 	
-	String name = "Mobile Phone";
+	String name = "Apple 14";
 	List<String> imageURL = new ArrayList<String>(Arrays.asList(arr));
 	
-	Product mobile = new Product(99,"Mobile Phone",499.99,8,128,"A powerful mobile phone.",imageURL,10,"redmi");
- 
+	Product mobile = new Product(99,name,499.99,8,128,"A powerful mobile phone.",imageURL,10,"apple");
+  
 	@Test
 	public void testAddproduct() throws InvalidProductException, DAOException, ClassNotFoundException, SQLException {
 		Product mob = new Product();
@@ -56,29 +56,30 @@ public class TestService {
 		} catch (InvalidProductException e) {
 			Assertions.assertEquals(ProductErrors.INVALID_NAME,e.getMessage());
 		}
-	}
+	} 
 	
 	@Test
-	public void testDeleteproduct() throws InvalidProductException, DAOException, ClassNotFoundException {
-		
-		Assertions.assertTrue(service.deleteProduct(2));
-		try {
-			service.deleteProduct(-7);
-			Assertions.fail("Expected InvalidProductException");
-		} catch (InvalidProductException e) {
-			Assertions.assertEquals(ProductErrors.INVALID_ID,e.getMessage());
-		}
-	}
-	
 	public void testAddImageUrls() throws InvalidProductException,DAOException, ClassNotFoundException {
 		
-		Assertions.assertTrue(service.addImageUrls(imageURL, name));
+		Assertions.assertTrue(service.addImageUrls(imageURL, "redmi 12"));
 		
 		try {
-			service.addImageUrls(imageURL,"");
+			service.addImageUrls(imageURL,null); 
 			Assertions.fail("Expected InvalidProductException");
 		} catch (InvalidProductException e) {
 			Assertions.assertEquals(ProductErrors.INVALID_NAME, e.getMessage());
 		}
 	}
+	
+	@Test
+	public void testDeleteproduct() throws InvalidProductException, DAOException, ClassNotFoundException {
+		
+		Assertions.assertTrue(service.deleteProduct(name));
+		try {
+			service.deleteProduct(null);
+			Assertions.fail("Expected InvalidProductException");
+		} catch (InvalidProductException e) {
+			Assertions.assertEquals(ProductErrors.INVALID_NAME,e.getMessage());
+		}
+	}  
 }
