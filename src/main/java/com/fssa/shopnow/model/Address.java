@@ -6,25 +6,26 @@ package com.fssa.shopnow.model;
 
 public class Address {
 
-    // The area or locality where the address is located.
-    String area;
-
-    // The house number or flat/apartment number.
-    String houseNumber;
-
-    // A landmark or point of reference near the address.
-    String landMark;
-
-    // The 6-digit PIN code representing the postal code of the address location.
-    String pincode;
+	private int id;
+	private String name;
+	private String phoneNumber;
+	private String area;
+	private String houseNumber;
+	private String landMark;
+	private String pincode;
+	private int userId;
 
     // Constructor for initializing Address objects with provided values.
-    public Address(String area, String houseNumber, String landMark, String pincode) {
-        this.area = area;
-        this.houseNumber = houseNumber;
-        this.landMark = landMark;
-        this.pincode = pincode;
-    }
+    public Address(String name, String phoneNumber, String area, String houseNumber, String landMark,
+			String pincode) {
+		
+		this.name = name;
+		this.phoneNumber = phoneNumber;
+		this.area = area;
+		this.houseNumber = houseNumber;
+		this.landMark = landMark;
+		this.pincode = pincode;
+	}
 
     // Getters and setters for retrieving and updating the address properties.
 
@@ -33,7 +34,7 @@ public class Address {
         return area;
     }
 
-    // Set the area of the address.
+	// Set the area of the address.
     public void setArea(String area) {
         this.area = area;
     }
@@ -68,4 +69,43 @@ public class Address {
         this.pincode = pincode;
     }
 
+    //Get the name of the address
+	public String getName() {
+		return name;
+	}
+
+	//Set the name of the address
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	//Get the name of the address
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	//Set the phoneNumber of the address
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	//Get the userId of the address
+	public int getUserId() {
+		return userId;
+	}
+
+	//Set the UserId of the address
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+   
 }

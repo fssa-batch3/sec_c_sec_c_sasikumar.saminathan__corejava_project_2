@@ -1,9 +1,5 @@
 package com.fssa.shopnow.dao;
 
-import com.fssa.shopnow.dao.*;
-import com.fssa.shopnow.exception.InvalidProductException;
-import com.fssa.shopnow.model.*;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +7,10 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Order;
+
+import com.fssa.shopnow.exception.InvalidProductException;
+import com.fssa.shopnow.model.Product;
 
 public class TestProductDao {
 
@@ -31,22 +31,28 @@ public class TestProductDao {
 	Product product = new Product(id, name, price, ram, storage, description, imageURL, quantity, brand);
 
 	@Test
-	public void testAddProduct() throws InvalidProductException, DAOException, ClassNotFoundException, SQLException {
+	public void test2_testAddProduct() throws InvalidProductException, DAOException, ClassNotFoundException, SQLException {
 
 		Assertions.assertTrue(ProductDao.addProduct(product));
 
 	}
+	
+	 @Test
+	public void test1_testAddImageUrls() throws DAOException, InvalidProductException, ClassNotFoundException {
+		Assertions.assertTrue(ProductDao.addImageUrls(imageURL, name));
+	}  
 
 	@Test
-	public void testUpdateProduct() throws DAOException, InvalidProductException, ClassNotFoundException {
-
+	public void test3_testUpdateProduct() throws DAOException, InvalidProductException, ClassNotFoundException {
+		int id = ProductDao.getProductIdByName(name);
+		product.setId(id);
 		Assertions.assertTrue(ProductDao.updateProduct(product));
 	}
 	
 	@Test
-	public void testgetIdByName() throws DAOException, ClassNotFoundException {
+	public void test6_testgetIdByName() throws DAOException, ClassNotFoundException {
 
-		int id = ProductDao.getProductIdByName("redmi 12");
+		int id = ProductDao.getProductIdByName(name);
 
 		boolean value = (id > 0) ? true : false;
 
@@ -55,20 +61,15 @@ public class TestProductDao {
 	}
 
 	@Test
-	public void testGetProduct() throws DAOException, ClassNotFoundException {
+	public void test5_testGetProduct() throws DAOException, ClassNotFoundException {
 		// This test case will check if the getAllTasks method returns a non-empty list
 		List<Product> allProducts = ProductDao.getAllProducts();
 
 		// Assert that the list is not null and not empty
 		Assertions.assertFalse(allProducts.isEmpty());
-	}
-
-	 @Test
-	public void testAddImageUrls() throws DAOException, InvalidProductException, ClassNotFoundException {
-		Assertions.assertTrue(ProductDao.addImageUrls(imageURL, "redmi 12"));
-	}   
+	} 
 	@Test
-	public void testDeleteProduct() throws DAOException, ClassNotFoundException {
+	public void test4_testDeleteProduct() throws DAOException, ClassNotFoundException {
 
 		Assertions.assertTrue(ProductDao.deleteProduct(name));
 

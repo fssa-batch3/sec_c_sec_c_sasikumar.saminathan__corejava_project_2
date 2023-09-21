@@ -1,12 +1,12 @@
 package com.fssa.shopnow.validator;
 
-import com.fssa.shopnow.model.*;
-
 import java.util.regex.Pattern;
 
 import com.fssa.shopnow.errors.AddressErrors;
-import com.fssa.shopnow.errors.ProductErrors;
-import com.fssa.shopnow.exception.*;
+import com.fssa.shopnow.exception.InvalidAddressException;
+import com.fssa.shopnow.exception.InvalidProductException;
+import com.fssa.shopnow.exception.InvalidUserException;
+import com.fssa.shopnow.model.Address;
 /**
  * The ValidateAddress class provides methods to validate the attributes of an Address object.
  * It performs various checks to ensure the integrity and validity of address-related information.
@@ -27,12 +27,43 @@ public class ValidateAddress {
 		}
 		 
 		//Validate the all attrubiutes 
+		isValidName(address.getName());
+		isValidMobileNumber(address.getPhoneNumber());
+		isvalidId(address.getUserId());
 		isValidArea(address.getArea());
 		isValidHouseNumber(address.getHouseNumber());
 		isValidLandmark(address.getLandMark());
 		isValidPincode(address.getPincode());
 
 		return true;
+	}
+	
+	//Validate the id
+	public static boolean isvalidId(int id) throws InvalidProductException{
+		if(id < 0) {
+			throw new InvalidAddressException("Address id is invalid");
+		}
+		return true;
+	}
+	
+	public static boolean isValidName(String name) throws InvalidUserException {
+		if(name == null || "".equals(name.trim()) || name.length() < 4){
+			throw new InvalidAddressException("name cannot be null or empty");
+		}
+		return true;
+	}
+	
+	public static boolean isValidMobileNumber(String mobileNumber) throws InvalidUserException{
+		if(mobileNumber == null){
+			throw new InvalidAddressException("mobileNumber cannot be null");
+		}
+        
+        //If it's false throw an InvalidUserException
+        if(mobileNumber.length() != 10){
+        	throw new InvalidAddressException("Invalid mobile number");
+        }
+        
+        return true;
 	}
 
 	public static boolean isValidArea(String area) throws InvalidAddressException {

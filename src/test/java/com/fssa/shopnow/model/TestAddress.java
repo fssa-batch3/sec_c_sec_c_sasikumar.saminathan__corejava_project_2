@@ -1,8 +1,9 @@
 package com.fssa.shopnow.model;
 
-import org.junit.Test;
+import org.junit.Test; 
 import org.junit.jupiter.api.Assertions;
 import com.fssa.shopnow.model.*;
+
 
 /**
  * This is a test class for the Address class, which tests the getters and setters of the Address attributes.

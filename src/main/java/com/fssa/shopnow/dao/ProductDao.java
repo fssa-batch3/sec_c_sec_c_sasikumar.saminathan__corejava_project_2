@@ -16,11 +16,10 @@ import com.fssa.shopnow.util.ConnectionUtil;
 import com.fssa.shopnow.util.Logger;
 
 public class ProductDao {
-	
-	
-		  private ProductDao() {
-		    throw new IllegalStateException("Utility class");
-		  }
+
+	private ProductDao() {
+		throw new IllegalStateException("Utility class");
+	}
 
 	static Logger logger = new Logger();
 
@@ -28,12 +27,11 @@ public class ProductDao {
 			throws DAOException, InvalidProductException, ClassNotFoundException, SQLException {
 
 		try (Connection connection = ConnectionUtil.getConnection()) {
-	
+
 			// Create insert statement
-			String query = "INSERT INTO products (product_name,product_price,product_ram,product_storage,product_highlights,product_quantity,product_brand) VALUES (?,?,?,?,?,?,?)";
+			String query = "INSERT INTO products (product_name,product_price,product_ram,product_storage,product_highlights,product_quantity,product_brand,seller_id,shop_id) VALUES (?,?,?,?,?,?,?,?,?)";
 			// Execute insert statement
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
-
 
 				pst.setString(1, product.getName());
 				pst.setDouble(2, product.getPrice());
@@ -42,6 +40,10 @@ public class ProductDao {
 				pst.setString(5, product.getDescription());
 				pst.setInt(6, product.getQuantity());
 				pst.setString(7, product.getBrand());
+				pst.setInt(8,product.getSellerId());
+				pst.setInt(9,product.getShopId());
+				
+				
 				int rows = pst.executeUpdate();
 
 				logger.info("number of rows affected:" + rows);
@@ -66,13 +68,13 @@ public class ProductDao {
 
 						if (resultSet.next()) {
 							int productId = resultSet.getInt("product_id");
-							return productId; 
+							return productId;
 						} else {
 							throw new DAOException("Product not found");
 						}
 					}
 				}
-			} 
+			}
 		} catch (SQLException e) {
 			throw new DAOException("Cannot get product id by name");
 		}
@@ -88,14 +90,14 @@ public class ProductDao {
 
 		try {
 			try (Connection connection = ConnectionUtil.getConnection()) {
-				for (String url : imageUrls) { 
+				for (String url : imageUrls) {
 					String query = "INSERT INTO Product_images (product_id,image_url) VALUES (?,?)";
 					try (PreparedStatement pst = connection.prepareStatement(query)) {
 						pst.setInt(1, productId);
 						pst.setString(2, url);
 						rows += pst.executeUpdate();
 					}
-
+ 
 				}
 				logger.info("number of rows affected:" + rows);
 			}
@@ -111,11 +113,12 @@ public class ProductDao {
 
 		try {
 			// Create update statement using task id
-			String query = "UPDATE products SET product_name = ?, product_price = ?,product_ram = ?,product_storage = ?,product_highlights = ?,product_quantity=? ,product_brand=? WHERE product_id = ?";
+			String query1 = "DELETE FROM Product_images WHERE product_id = ?";
+			String query2 = "UPDATE products SET product_name = ?, product_price = ?,product_ram = ?,product_storage = ?,product_highlights = ?,product_quantity=? ,product_brand=? WHERE product_id = ?";
 			try (Connection connection = ConnectionUtil.getConnection()) {
 
 				// Execute update statement using task id
-				try (PreparedStatement pst = connection.prepareStatement(query)) {
+				try (PreparedStatement pst = connection.prepareStatement(query2)) {
 					pst.setString(1, product.getName());
 					pst.setDouble(2, product.getPrice());
 					pst.setInt(3, product.getRam());
@@ -123,6 +126,7 @@ public class ProductDao {
 					pst.setString(5, product.getDescription());
 					pst.setInt(6, product.getQuantity());
 					pst.setString(7, product.getBrand());
+					// int productId = getProductIdByName(product.getName());
 					pst.setInt(8, product.getId());
 
 					int row = pst.executeUpdate();
@@ -130,6 +134,14 @@ public class ProductDao {
 					logger.info("number of rows updated : " + row);
 
 				}
+
+				try (PreparedStatement pst = connection.prepareStatement(query1)) {
+					pst.setInt(1, product.getId());
+					int row = pst.executeUpdate();
+					logger.info("number of rows deleted : " + row);
+				}
+
+				addImageUrls(product.getImageURL(), product.getName());
 			}
 		} catch (SQLException e) {
 			throw new DAOException(ProductErrors.UPDATE_ERROR, e);
@@ -139,19 +151,26 @@ public class ProductDao {
 
 	// this method for deleting product row from table
 	public static boolean deleteProduct(String name) throws DAOException, ClassNotFoundException {
-		
+
 		int id = getProductIdByName(name);
-		
+
 		try {
 			// Create delete statement query product id
-			String query = "DELETE FROM products WHERE product_id = ?";
+			String query1 = "DELETE FROM Product_images WHERE product_id = ?";
+			String query2 = "DELETE FROM products WHERE product_id = ?";
 			try (Connection connection = ConnectionUtil.getConnection()) {
 
-				// Execute delete statement
-				try (PreparedStatement pst = connection.prepareStatement(query)) {
+				try (PreparedStatement pst = connection.prepareStatement(query1)) {
 					pst.setInt(1, id);
 					int row = pst.executeUpdate();
-					logger.info("number of rows deleted : " + row); 
+					logger.info("number of rows deleted : " + row);
+				}
+
+				// Execute delete statement
+				try (PreparedStatement pst = connection.prepareStatement(query2)) {
+					pst.setInt(1, id);
+					int row = pst.executeUpdate();
+					logger.info("number of rows deleted : " + row);
 				}
 			}
 		} catch (SQLException e) {
@@ -167,18 +186,18 @@ public class ProductDao {
 		try {
 			// Create a Select all query
 			String query = """
-				    SELECT
-				        p.*,
-				        (SELECT GROUP_CONCAT(image_url) FROM Product_images pi WHERE pi.product_id = p.product_id) AS image_urls
-				    FROM products p;
-				""";
+					    SELECT
+					        p.*,
+					        (SELECT GROUP_CONCAT(image_url) FROM Product_images pi WHERE pi.product_id = p.product_id) AS image_urls
+					    FROM products p;
+					""";
 			try (Connection connection = ConnectionUtil.getConnection()) {
 
 				// Execute query
 				try (Statement statement = connection.createStatement()) {
 					try (ResultSet resultSet = statement.executeQuery(query)) {
 
-						// Create an ArrayList for get and insert all task from databse
+						// Create an ArrayList for get and insert all from databse
 						List<Product> products = new ArrayList<Product>();
 						while (resultSet.next()) {
 
@@ -190,18 +209,24 @@ public class ProductDao {
 							String description = resultSet.getString("product_highlights");
 							int quantity = resultSet.getInt("product_quantity");
 							String brand = resultSet.getString("product_brand");
-							String imageUrl = resultSet.getString("image_urls"); 
+							String imageUrl = resultSet.getString("image_urls");
+							int sellerId = resultSet.getInt("seller_id");
+							int shopId = resultSet.getInt("shop_id");
 
-							String[] imageArr = imageUrl.split(","); 
+							String[] imageArr = imageUrl.split(",");
 
 							List<String> imgList = new ArrayList<String>(Arrays.asList(imageArr));
 
 							Product product = new Product(id, name, price, ram, storage, description, imgList, quantity,
 									brand);
+							
+							//Adding seller and shop Id
+							product.setSellerId(sellerId);
+							product.setShopId(shopId);
 							products.add(product);
 
 						}
-						return products; 
+						return products;
 					}
 				}
 
@@ -212,6 +237,101 @@ public class ProductDao {
 			}
 		} catch (SQLException e) {
 			throw new DAOException(ProductErrors.GET_ERROR, e);
+		}
+	}
+	
+	public static String getproductNamebyId(int id) throws DAOException{
+		try {
+			String query = "SELECT product_name FROM products WHERE product_id = ?";
+			
+			try (Connection connection = ConnectionUtil.getConnection()) {
+				try (PreparedStatement pst = connection.prepareStatement(query)) {
+					pst.setInt(1, id);
+					try (ResultSet resultSet = pst.executeQuery()) {
+						String name = "";
+						if(resultSet.next()) {
+							 name = resultSet.getString("product_name");	
+						}
+						return name;
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Error in get product name by id", e);
+		}
+	}
+	
+	public static List<Integer> getShopListByProductName(String name) throws DAOException{
+		try {
+			String query = "SELECT * FROM products WHERE product_name = ?";
+			try (Connection connection = ConnectionUtil.getConnection()) {
+				try (PreparedStatement pst = connection.prepareStatement(query)) {
+					pst.setString(1,name);
+					try (ResultSet resultSet = pst.executeQuery()) {
+						
+						List<Integer> shopList = new ArrayList<Integer>();
+						
+						while (resultSet.next()) {
+						    int shopId = resultSet.getInt("shop_id");
+						    shopList.add(shopId);
+						}
+						
+						return shopList;
+					}
+				}
+			}
+		}
+		catch (Exception e) {
+			throw new DAOException("Error in getting shop id from products", e);
+		}
+	}
+	
+	public static Product getProductById(int id) throws DAOException, ClassNotFoundException {
+
+		try {
+			String query = """
+				    SELECT
+			        p.*,
+			        (SELECT GROUP_CONCAT(image_url) FROM Product_images pi WHERE pi.product_id = p.product_id) AS image_urls
+			    FROM products p WHERE product_id = ?;
+			""";
+			try (Connection connection = ConnectionUtil.getConnection()) {
+				try (PreparedStatement pst = connection.prepareStatement(query)) {
+					pst.setInt(1, id);
+					try (ResultSet resultSet = pst.executeQuery()) {
+
+						if (resultSet.next()) {
+							String name = resultSet.getString("product_name");
+							double price = resultSet.getDouble("product_price");
+							int ram = resultSet.getInt("product_ram");
+							int storage = resultSet.getInt("product_storage");
+							String description = resultSet.getString("product_highlights");
+							int quantity = resultSet.getInt("product_quantity");
+							String brand = resultSet.getString("product_brand");
+							String imageUrl = resultSet.getString("image_urls");
+							int sellerId = resultSet.getInt("seller_id");
+							int shopId = resultSet.getInt("shop_id");
+							String[] imageArr = imageUrl.split(",");
+
+							List<String> imgList = new ArrayList<String>(Arrays.asList(imageArr));
+
+							Product product = new Product(id, name, price, ram, storage, description, imgList, quantity,
+									brand);
+							
+							//Adding seller and shop Id
+							product.setSellerId(sellerId);
+							product.setShopId(shopId);
+							
+							return product;
+						
+						} else {
+							throw new DAOException("Product not found");
+						}
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Cannot get product by id");
 		}
 	}
 }

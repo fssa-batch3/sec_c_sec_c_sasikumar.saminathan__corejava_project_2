@@ -17,6 +17,8 @@ public class Product {
 	private List<String> imageURLs;
 	private int quantity;
 	private String brand;
+	private int sellerId;
+	private int shopId;
 	
 	public Product(int id, String name, double price, int ram, int storage, String description, List<String> imageURLs,int quantity, String brand) {
 		this.id = id;
@@ -104,4 +106,19 @@ public class Product {
 		this.brand = brand;
 	}
 	
+	public int getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(int sellerId) {
+		this.sellerId = sellerId;
+	}
+
+	public int getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(int shopId) {
+		this.shopId = shopId;
+	}	
 }

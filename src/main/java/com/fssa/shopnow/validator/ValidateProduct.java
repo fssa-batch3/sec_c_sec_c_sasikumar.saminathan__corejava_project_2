@@ -31,6 +31,8 @@ public class ValidateProduct {
 		validateImageURL(mobile.getImageURL());
 		validateBrand(mobile.getBrand());
 		validateQty(mobile.getQuantity());
+		validateID(mobile.getSellerId());
+		validateID(mobile.getShopId());
 		
 		return true;
 		}

@@ -21,7 +21,7 @@ public class ProductService {
 	}
 	
  
-	public ProductService() {
+	public ProductService() { 
 		// TODO Auto-generated constructor stub
 	}
 
@@ -60,6 +60,35 @@ public class ProductService {
 		else {
 			return false;
 		}
+	}
+	
+	public List<Product> getProducts() throws ClassNotFoundException, DAOException{
+		List<Product> products =  ProductDao.getAllProducts();
+		return products;
+	}
+	
+	public String getProductNamebyId(int id) throws DAOException{
+		if(ValidateProduct.validateID(id)){
+			return ProductDao.getproductNamebyId(id);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public List<Integer> getShopListbyProductName(String name) throws DAOException{
+		if(ValidateProduct.validateName(name)) {
+			List<Integer> shopList = ProductDao.getShopListByProductName(name);
+			return shopList;
+		}
+		return null;
+	}
+	
+	public Product getProuctById(int id) throws ClassNotFoundException, DAOException {
+		if(ValidateProduct.validateID(id)) {
+			return ProductDao.getProductById(id);
+		}
+		return null;
 	}
 	
 }
