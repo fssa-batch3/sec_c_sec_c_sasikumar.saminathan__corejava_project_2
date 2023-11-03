@@ -14,8 +14,23 @@ public class Address {
 	private String landMark;
 	private String pincode;
 	private int userId;
+	
+	
 
-    // Constructor for initializing Address objects with provided values.
+    public Address(int id, String name, String phoneNumber, String area, String houseNumber, String landMark,
+			String pincode, int userId) {
+    	
+		this.id = id;
+		this.name = name;
+		this.phoneNumber = phoneNumber;
+		this.area = area;
+		this.houseNumber = houseNumber;
+		this.landMark = landMark;
+		this.pincode = pincode;
+		this.userId = userId;
+	}
+
+	// Constructor for initializing Address objects with provided values.
     public Address(String name, String phoneNumber, String area, String houseNumber, String landMark,
 			String pincode) {
 		

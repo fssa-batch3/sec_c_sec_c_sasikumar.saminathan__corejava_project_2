@@ -25,10 +25,12 @@ public class TestProductDao {
 			"https://example.com/image1.jpg", "https://example.com/image1.jpg" };
 	List<String> imageURL = new ArrayList<String>(Arrays.asList(arr));
 	int quantity = 10;
-	String brand = "BrandX"; 
+	String brand = "BrandX";
+	 int sellerId = 9399;
+	 int shopId = 9474;
 
 	// Insert the declared values for product via constructor
-	Product product = new Product(id, name, price, ram, storage, description, imageURL, quantity, brand);
+	Product product = new Product(name, price, ram, storage, description, imageURL, quantity, brand,sellerId,shopId);
 
 	@Test
 	public void test2_testAddProduct() throws InvalidProductException, DAOException, ClassNotFoundException, SQLException {

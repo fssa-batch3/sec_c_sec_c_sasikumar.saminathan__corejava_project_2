@@ -1,5 +1,6 @@
 package com.fssa.shopnow.validator;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.fssa.shopnow.errors.AddressErrors;
@@ -16,7 +17,7 @@ import com.fssa.shopnow.model.Address;
 public class ValidateAddress {
 	
 	  private ValidateAddress() {
-		  throw new IllegalStateException("Utility class");
+		  throw new IllegalStateException("Utility class"); 
 	}
 
 	public static boolean isValidObj(Address address) throws InvalidAddressException {
@@ -39,28 +40,33 @@ public class ValidateAddress {
 	}
 	
 	//Validate the id
-	public static boolean isvalidId(int id) throws InvalidProductException{
+	public static boolean isvalidId(int id) throws InvalidAddressException{
 		if(id < 0) {
-			throw new InvalidAddressException("Address id is invalid");
+			throw new InvalidAddressException(AddressErrors.INVALID_ID);
 		}
 		return true;
 	}
 	
-	public static boolean isValidName(String name) throws InvalidUserException {
-		if(name == null || "".equals(name.trim()) || name.length() < 4){
-			throw new InvalidAddressException("name cannot be null or empty");
+	public static boolean isValidName(String name) throws InvalidAddressException {
+		if(name == null || "".equals(name.trim()) || name.length() < 3){
+			throw new InvalidAddressException(AddressErrors.INVALID_NAME);
 		}
 		return true;
 	}
 	
-	public static boolean isValidMobileNumber(String mobileNumber) throws InvalidUserException{
+	public static boolean isValidMobileNumber(String mobileNumber) throws InvalidAddressException{
 		if(mobileNumber == null){
-			throw new InvalidAddressException("mobileNumber cannot be null");
+			throw new InvalidAddressException(AddressErrors.INVALID_PHONENUMBER);
 		}
+		
+		String regex = "^(\\+91|91)?[6789]\\d{9}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(mobileNumber);
+		boolean isMatch = matcher.matches();
         
         //If it's false throw an InvalidUserException
-        if(mobileNumber.length() != 10){
-        	throw new InvalidAddressException("Invalid mobile number");
+        if(!isMatch){
+        	throw new InvalidAddressException(AddressErrors.INVALID_PHONENUMBER_PATTERN);
         }
         
         return true;
@@ -79,10 +85,7 @@ public class ValidateAddress {
 			throw new InvalidAddressException(AddressErrors.EMPTY_HOUSE_NUMBER);
 		}
 
-		// Use a regular expression to check for valid house number pattern
-		// The regular expression allows a combination of numbers, letters, slashes, and
-		// hyphens
-		// Modify the regex pattern as needed based on your specific requirements
+
 		String regexPattern = "^[\\w\\s\\-/]+$";
 
 		// Matching the pattern and return the boolean value
@@ -96,7 +99,7 @@ public class ValidateAddress {
 		return true;
 	}
 
-	public static boolean isValidLandmark(String landmark) {
+	public static boolean isValidLandmark(String landmark) throws InvalidAddressException{
 
 		// Check the landmark if it's null or contains only white spaces or length less
 		// than 3 charcters
@@ -107,7 +110,7 @@ public class ValidateAddress {
 		return true;
 	}
 
-	public static boolean isValidPincode(String pincode) {
+	public static boolean isValidPincode(String pincode) throws InvalidAddressException{
 		// Check the landmark if it's null or contains only white spaces throw an
 		// InvalidAddressException
 		if (pincode == null || pincode.isBlank()) {
@@ -117,6 +120,7 @@ public class ValidateAddress {
 		// Use a regular expression to validate the Indian PIN code pattern
 		// The regex pattern checks for exactly 6 digits (0-9)
 		String regexPattern = "^[0-9]{6}$";
+		
 		// Matching the pattern and return the boolean value
 		Boolean isMatch = Pattern.matches(regexPattern, pincode);
 

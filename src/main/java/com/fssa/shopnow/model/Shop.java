@@ -14,7 +14,31 @@ public class Shop {
 	private int sellerId;
 	private String license;
 	
+	public Shop(){
+	}
 	
+	
+	
+	
+	public Shop(int id, String name, String image, String address, String area, double lat, double lon,
+			String phoneNumber, String pincode, int sellerId, String license) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.image = image;
+		this.address = address;
+		this.area = area;
+		this.lat = lat;
+		this.lon = lon;
+		this.phoneNumber = phoneNumber;
+		this.pincode = pincode;
+		this.sellerId = sellerId;
+		this.license = license;
+	}
+
+
+
+
 	public int getId() {
 		return id;
 	}

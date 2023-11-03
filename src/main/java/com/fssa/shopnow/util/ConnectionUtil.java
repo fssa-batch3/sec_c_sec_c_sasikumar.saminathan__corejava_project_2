@@ -1,9 +1,6 @@
 package com.fssa.shopnow.util;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.sql.*;
 
 import com.fssa.shopnow.dao.DAOException;
 
@@ -67,16 +64,19 @@ public class ConnectionUtil {
 		String userName;
 		String passWord;
 
-		url = System.getenv("DATABASE_HOST");
-		userName = System.getenv("DATABASE_USERNAME");
-		passWord = System.getenv("DATABASE_PASSWORD");
+		url = "jdbc:mysql://127.0.0.1:3306/shopnow";
+		userName = "root";
+		passWord = "123456";
+//		url = System.getenv("DATABASE_HOST");
+//		userName = System.getenv("DATABASE_USERNAME");
+//		passWord = System.getenv("DATABASE_PASSWORD"); 
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userName, passWord);
 
 		} catch (Exception e) {
-			throw new DAOException("Unable to connect to the database");
+			e.printStackTrace();		
 		}
 		return con;
 	}
@@ -84,7 +84,7 @@ public class ConnectionUtil {
 	public static void close(Connection conn, Statement stmt, ResultSet rs) {
 		Logger logger = new Logger();
 		try {
-			if (rs != null) { 
+			if (rs != null) {
 				rs.close();
 			}
 			if (stmt != null) {
@@ -97,5 +97,5 @@ public class ConnectionUtil {
 			logger.info(e.getMessage());
 		}
 	}
-
+ 
 }

@@ -13,6 +13,7 @@ import java.util.List;
 
 import com.fssa.shopnow.util.ConnectionUtil;
 import com.fssa.shopnow.util.Logger;
+import com.fssa.shopnow.util.PasswordTool;
 
 public class UserDao {
 	
@@ -26,13 +27,16 @@ public class UserDao {
 		try(Connection connection = ConnectionUtil.getConnection()){
 			// Create insert statement
 			String query = "INSERT INTO users (name,email,password,phone_number) VALUES (?,?,?,?)";
+			
+			String hashedPassword = PasswordTool.hashPassword(user.getPassword());
 			// Execute insert statement
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
 
 				pst.setString(1, user.getName());
 				pst.setString(2, user.getEmail());
-				pst.setString(3, user.getPassword());
+				pst.setString(3, hashedPassword);
 				pst.setString(4, user.getMobileNumber());
+				
 				int rows = pst.executeUpdate();
 
 				logger.info("number of rows inserterd:" + rows);

@@ -44,7 +44,7 @@ public class ProductDao {
 				pst.setInt(9,product.getShopId());
 				
 				
-				int rows = pst.executeUpdate();
+				int rows = pst.executeUpdate(); 
 
 				logger.info("number of rows affected:" + rows);
 

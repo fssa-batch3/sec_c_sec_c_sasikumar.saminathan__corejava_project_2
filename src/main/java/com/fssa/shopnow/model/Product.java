@@ -20,6 +20,23 @@ public class Product {
 	private int sellerId;
 	private int shopId;
 	
+	
+	
+	
+	public Product(String name, double price, int ram, int storage, String description, List<String> imageURLs,
+			int quantity, String brand, int sellerId, int shopId) {
+		this.name = name;
+		this.price = price;
+		this.ram = ram;
+		this.storage = storage;
+		this.description = description;
+		this.imageURLs = imageURLs;
+		this.quantity = quantity;
+		this.brand = brand;
+		this.sellerId = sellerId;
+		this.shopId = shopId;
+	}
+
 	public Product(int id, String name, double price, int ram, int storage, String description, List<String> imageURLs,int quantity, String brand) {
 		this.id = id;
 		this.name = name; 

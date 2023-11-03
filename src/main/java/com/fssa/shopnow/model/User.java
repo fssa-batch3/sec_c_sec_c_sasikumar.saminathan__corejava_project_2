@@ -18,8 +18,17 @@ public class User {
 	private String mobileNumber;
 	private String password;
 
-	// Creating constructors for intializeing value
+	// Creating constructors for initializing value
 	public User(String name, String email, String mobileNumber) {
+		this.name = name;
+		this.email = email;
+		this.mobileNumber = mobileNumber;
+	}
+	
+	// Creating constructors for initializing value
+	public User(int id, String name, String email, String mobileNumber, String password) {
+
+		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.mobileNumber = mobileNumber;

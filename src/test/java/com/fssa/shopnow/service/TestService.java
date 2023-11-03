@@ -19,24 +19,30 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.Assertions;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TestService {
+public class TestService { 
 
     ProductDao productDao;
     ValidateProduct validate;
 
     ProductService service = new ProductService(productDao, validate);
 
-    String[] arr = {
-        "https://example.com/image1.jpg",
-        "https://example.com/image1.jpg",
-        "https://example.com/image1.jpg",
-        "https://example.com/image1.jpg"
-    };
+	// Declaring the values for product
+	int id = 10;
+	String name = "redmi pro 2";
+	double price = 499.99;
+	int ram = 8;
+	int storage = 128;
+	String description = "A powerful mobile phone.";
+	String[] arr = { "https://example.com/image1.jpg", "https://example.com/image1.jpg",
+			"https://example.com/image1.jpg", "https://example.com/image1.jpg" };
+	List<String> imageURL = new ArrayList<String>(Arrays.asList(arr));
+	int quantity = 10;
+	String brand = "BrandX";
+	 int sellerId = 9399;
+	 int shopId = 9474;
 
-    String name = "Apple 14";
-    List < String > imageURL = new ArrayList < String > (Arrays.asList(arr));
-
-    Product mobile = new Product(99, name, 499.99, 8, 128, "A powerful mobile phone.", imageURL, 10, "apple");
+	// Insert the declared values for product via constructor
+	Product mobile = new Product(name, price, ram, storage, description, imageURL, quantity, brand,sellerId,shopId);
 
     @Test
     @Order(1)
@@ -72,7 +78,7 @@ public class TestService {
     @Order(3)
     public void testAddImageUrls() throws InvalidProductException, DAOException, ClassNotFoundException {
 
-        Assertions.assertTrue(service.addImageUrls(imageURL, "Apple 14"));
+        Assertions.assertTrue(service.addImageUrls(imageURL, name));
 
         try {
             service.addImageUrls(imageURL, null);
